@@ -95,9 +95,15 @@ body{background:#0a0804;font-family:'Cormorant Garamond',serif;color:var(--ink);
 .game-header{
   background:var(--teal);padding:.7rem 1.5rem;
   display:flex;align-items:center;justify-content:space-between;
-  border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:200;gap:1rem;flex-wrap:wrap;
+  border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:200;gap:1rem;
 }
 .gh-left{display:flex;flex-direction:column;}
+.gh-back{
+  font-family:'Josefin Sans',sans-serif;font-size:.5rem;letter-spacing:.25em;
+  color:rgba(245,239,226,.55);text-transform:uppercase;text-decoration:none;
+  display:inline-flex;align-items:center;gap:.3rem;transition:color .2s;margin-bottom:.15rem;
+}
+.gh-back:hover{color:var(--gold);}
 .gh-series{font-family:'Josefin Sans',sans-serif;font-size:.5rem;letter-spacing:.4em;color:rgba(245,239,226,.4);text-transform:uppercase;}
 .gh-name{font-family:'IM Fell English',serif;font-size:1.15rem;color:var(--cream);}
 .gh-chapter{font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;text-align:center;flex:1;}
@@ -106,6 +112,15 @@ body{background:#0a0804;font-family:'Cormorant Garamond',serif;color:var(--ink);
 .ghs{text-align:center;}
 .ghs-n{font-family:'IM Fell English',serif;font-size:1.05rem;color:var(--gold);display:block;}
 .ghs-l{font-family:'Josefin Sans',sans-serif;font-size:.5rem;letter-spacing:.15em;color:rgba(245,239,226,.4);text-transform:uppercase;}
+@media(max-width:600px){
+  .game-header{padding:.5rem 1rem;gap:.5rem;}
+  .gh-series{display:none;}
+  .gh-name{font-size:.95rem;}
+  .gh-chapter{display:none;}
+  .ghs-l{display:none;}
+  .ghs-n{font-size:.9rem;}
+  .gh-stats{gap:.8rem;}
+}
 
 /* Hint button in header */
 .hint-btn{
@@ -200,7 +215,7 @@ body{background:#0a0804;font-family:'Cormorant Garamond',serif;color:var(--ink);
 .opt:hover{border-color:var(--teal);background:rgba(26,74,74,.04);color:var(--ink);padding-left:2.3rem;}
 .opt:hover::before{transform:translateY(-50%) translateX(2px);}
 .opt.obs{border-style:dashed;border-color:var(--gold);color:var(--ink3);font-style:italic;}
-.opt.crit{border-color:var(--burgundy);color:var(--burgundy);}
+.opt.crit{}
 .opt.seen{opacity:.45;}
 .opt:disabled{opacity:.3;cursor:not-allowed;}
 
@@ -463,7 +478,7 @@ body{background:#0a0804;font-family:'Cormorant Garamond',serif;color:var(--ink);
 <div id="screen-game">
   <header class="game-header">
     <div class="gh-left">
-      <span class="gh-series">Las Memorias del Inspector</span>
+      <a class="gh-back" href="../index.html">← Colección</a>
       <span class="gh-name">Héctor Mondragón</span>
     </div>
     <div class="gh-chapter">
@@ -635,7 +650,7 @@ const CASE1 = {
   suspects: {
     beatriz:{
       name:'Beatriz Villanueva', role:'Sobrina del difunto', emoji:'👩',
-      trust:35, suspicion:90, bio:'Heredera directa. Inteligente y calculadora.',
+      trust:35, suspicion:20, bio:'Heredera directa. Inteligente y calculadora.',
       dialogues:{
         ch1:[
           { id:'b1_1', ctx:'Beatriz está junto a la chimenea, brazos cruzados, mirando las llamas. No llora. Eso ya es notable.',
@@ -837,7 +852,7 @@ const CASE1 = {
 
     lorenzo:{
       name:'Lorenzo Gaviria', role:'Socio comercial', emoji:'👨‍💼',
-      trust:55, suspicion:40, bio:'Socio desde veinte años. Debe una fortuna.',
+      trust:55, suspicion:20, bio:'Socio desde veinte años. Debe una fortuna.',
       dialogues:{
         ch1:[
           { id:'l1_1', ctx:'Lorenzo se pone de pie. Aprieta demasiado fuerte la copa.',
@@ -921,7 +936,7 @@ const CASE1 = {
 
     isabel:{
       name:'Isabel Montoya', role:'Médica de cabecera', emoji:'👩‍⚕️',
-      trust:65, suspicion:55, bio:'Médica personal veinte años. Conoce secretos de salud.',
+      trust:65, suspicion:20, bio:'Médica personal veinte años. Conoce secretos de salud.',
       dialogues:{
         ch1:[
           { id:'i1_1', ctx:'Isabel examina sus propias manos. La postura de quien está acostumbrada a la crisis.',
@@ -1025,7 +1040,7 @@ const CASE1 = {
 
     rodrigo:{
       name:'Rodrigo Salcedo', role:'Abogado de confianza', emoji:'⚖️',
-      trust:70, suspicion:25, bio:'Redactó el testamento. Conoce todos los secretos.',
+      trust:70, suspicion:20, bio:'Redactó el testamento. Conoce todos los secretos.',
       dialogues:{
         ch1:[
           { id:'r1_1', ctx:'Rodrigo se sienta frente al Inspector con la actitud de alguien acostumbrado a los interrogatorios desde el otro lado.',
@@ -1107,7 +1122,7 @@ const CASE1 = {
 
     carmen:{
       name:'Carmen Vélez', role:'Pianista', emoji:'🎹',
-      trust:80, suspicion:5, bio:'Amiga de infancia de Beatriz. Su testimonio es la llave.',
+      trust:80, suspicion:20, bio:'Amiga de infancia de Beatriz. Su testimonio es la llave.',
       dialogues:{
         ch1:[
           { id:'c1_1', ctx:'Carmen tiene los ojos hinchados de llorar. De todos los presentes, ella parece la más genuinamente afectada.',
@@ -1343,6 +1358,7 @@ function startCase(id){
   const ee = document.getElementById('evid-empty');
   if(ee) ee.style.display='block';
   document.getElementById('notebook').value='';
+  localStorage.removeItem('mondragon_notes_c1');
   renderChapter(0, caseData);
 }
 
@@ -1446,7 +1462,9 @@ function renderSuspects(container, caseData){
     btn.innerHTML = nextLabel;
     btn.onclick = ()=>{
       if(G.collectedClues.size < 5){
-        toast('Mondragón necesita más información antes de avanzar.'); return;
+        const need = 5 - G.collectedClues.size;
+        toast(`Mondragón necesita ${need} pista${need>1?'s':''} más (${G.collectedClues.size}/5 recopiladas).`);
+        return;
       }
       goToChapter(G.chapter+1, caseData);
     };
@@ -1531,7 +1549,8 @@ function renderDialogue(key, dia, chKey, caseData){
   back.onclick = ()=>{ act.innerHTML=''; renderSuspects(act,caseData); if(G.chapter===3) renderAccusationChapter(act,caseData); };
   wrap.appendChild(back);
   act.appendChild(wrap);
-  act.scrollIntoView({behavior:'smooth',block:'nearest'});
+  // Small delay so layout completes before scroll
+  requestAnimationFrame(()=>wrap.scrollIntoView({behavior:'smooth',block:'start'}));
 }
 
 function handleOpt(key, opt, dia, chKey, caseData, btn, wrap){
@@ -1561,6 +1580,7 @@ function handleOpt(key, opt, dia, chKey, caseData, btn, wrap){
     thought.textContent = mondragónThought(key, gs.trust);
     const optsEl = wrap.querySelector('.opts');
     if(optsEl) wrap.insertBefore(thought, optsEl);
+    requestAnimationFrame(()=>thought.scrollIntoView({behavior:'smooth',block:'nearest'}));
     updateDeductionBoard(caseData);
 
     const act = document.querySelector('.action-area');
@@ -1568,6 +1588,7 @@ function handleOpt(key, opt, dia, chKey, caseData, btn, wrap){
       act.innerHTML='';
       renderSuspects(act, caseData);
       if(G.chapter===3) renderAccusationChapter(act, caseData);
+      requestAnimationFrame(()=>act.scrollIntoView({behavior:'smooth',block:'start'}));
     }, 1400);
   }, 180);
 }
@@ -1802,17 +1823,18 @@ function updateDeductionBoard(caseData){
     const s = caseData.suspects[key];
     const gs = G.suspects[key];
     if(!gs) return;
-    const susp = gs.suspicion;
-    const color = susp>70?'var(--burgundy)':susp>40?'var(--gold)':'var(--teal)';
+    // Dynamic suspicion: only grows as the player gathers evidence
     const cluesRelated = Object.entries(caseData.clues)
-      .filter(([k,v])=>G.collectedClues.has(k)&&k.includes(key[0])).length;
+      .filter(([k])=>G.collectedClues.has(k)&&k.startsWith(key[0])).length;
+    const susp = Math.min(95, 8 + gs.visits * 6 + cluesRelated * 11);
+    const color = susp>65?'var(--burgundy)':susp>38?'var(--gold)':'var(--teal)';
 
     const item = el('div','ded-suspect');
     item.innerHTML = `
       <div class="ded-name">${s.emoji} ${s.name}</div>
       <div class="ded-bar-l">Sospecha acumulada</div>
-      <div class="ded-bar"><div class="ded-fill" style="width:${susp}%;background:${color}"></div></div>
-      <div class="ded-clues">Pistas relacionadas: ${cluesRelated} · Interrogatorios: ${gs.visits}</div>
+      <div class="ded-bar"><div class="ded-fill" style="width:${susp}%;background:${color};transition:width .6s ease"></div></div>
+      <div class="ded-clues">Indicios: ${cluesRelated} · Interrogatorios: ${gs.visits}</div>
     `;
     board.appendChild(item);
   });
@@ -1869,8 +1891,42 @@ function toast(msg){
   clearTimeout(_tt);
   const t=el('div','toast'); t.textContent=msg;
   document.body.appendChild(t);
-  _tt=setTimeout(()=>t.remove(),3200);
+  _tt=setTimeout(()=>t.remove(),3800);
 }
+
+// ── ESC key: close any open modal ──────────────────────────
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){
+    closeHints();
+    const finalScreen = document.getElementById('screen-final');
+    // don't close final screen with ESC — only overlays
+  }
+});
+
+// ── Notebook auto-save with indicator ──────────────────────
+(function initNotebook(){
+  const nb = document.getElementById('notebook');
+  if(!nb) return;
+  // Restore saved notes
+  const saved = localStorage.getItem('mondragon_notes_c1');
+  if(saved) nb.value = saved;
+
+  let _saveTimer;
+  const indicator = el('div','');
+  indicator.id='notes-saved';
+  indicator.style.cssText='font-family:\'Josefin Sans\',sans-serif;font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);text-align:right;padding:.2rem .3rem;opacity:0;transition:opacity .4s;';
+  nb.parentNode.insertBefore(indicator, nb.nextSibling);
+
+  nb.addEventListener('input', ()=>{
+    clearTimeout(_saveTimer);
+    indicator.textContent='guardando…'; indicator.style.opacity='1';
+    _saveTimer = setTimeout(()=>{
+      localStorage.setItem('mondragon_notes_c1', nb.value);
+      indicator.textContent='✓ Guardado';
+      setTimeout(()=>{ indicator.style.opacity='0'; }, 1200);
+    }, 600);
+  });
+})();
 </script>
 </body>
 </html>
