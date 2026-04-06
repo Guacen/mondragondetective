@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Tren de las Tres · Inspector Mondragón</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f5efe2;--gold:#b8860b;--gold2:#d4a017;
+  --teal:#1a4a4a;--teal2:#2a6a6a;--teal3:#3a8a8a;
+  --ink:#1c1409;--ink3:#5c4a28;--burgundy:#6b1a2a;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:#0a0804;font-family:'Cormorant Garamond',serif;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:3rem 2rem;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(184,134,11,0.025) 59px,rgba(184,134,11,0.025) 60px);
+}
+.wrap{max-width:520px;width:100%;text-align:center;}
+.top-line{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin-bottom:2.5rem;}
+.series{font-family:'Josefin Sans',sans-serif;font-size:.55rem;letter-spacing:.55em;color:var(--gold);text-transform:uppercase;margin-bottom:.7rem;}
+.case-num{font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.4em;color:rgba(245,239,226,.4);text-transform:uppercase;margin-bottom:.5rem;}
+h1{font-family:'IM Fell English',serif;font-size:clamp(1.8rem,5vw,2.8rem);color:var(--cream);line-height:1.2;margin-bottom:.6rem;}
+.tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:rgba(245,239,226,.5);margin-bottom:2.5rem;line-height:1.7;}
+.divider{width:60px;height:1px;background:var(--gold);margin:0 auto 2.5rem;}
+
+.coming-box{
+  border:1px solid rgba(184,134,11,.25);padding:2rem;
+  background:rgba(26,74,74,.1);margin-bottom:2.5rem;
+}
+.cb-label{font-family:'Josefin Sans',sans-serif;font-size:.55rem;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem;}
+.cb-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:rgba(245,239,226,.65);line-height:1.85;}
+
+.notify-form{display:flex;gap:.5rem;margin-bottom:2.5rem;}
+.notify-input{
+  flex:1;background:rgba(245,239,226,.06);border:1px solid rgba(184,134,11,.3);
+  color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:.95rem;
+  padding:.65rem .9rem;outline:none;
+}
+.notify-input::placeholder{color:rgba(245,239,226,.25);}
+.notify-input:focus{border-color:rgba(184,134,11,.7);}
+.notify-btn{
+  background:var(--teal);color:var(--cream);border:none;
+  font-family:'Josefin Sans',sans-serif;font-size:.58rem;letter-spacing:.3em;
+  text-transform:uppercase;padding:.65rem 1.2rem;cursor:pointer;transition:background .2s;white-space:nowrap;
+}
+.notify-btn:hover{background:var(--teal2);}
+
+.back-link{
+  font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.35em;
+  color:rgba(245,239,226,.4);text-transform:uppercase;text-decoration:none;
+  transition:color .2s;display:inline-flex;align-items:center;gap:.4rem;
+}
+.back-link:hover{color:var(--gold);}
+.bottom-line{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin-top:2.5rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-line"></div>
+  <div class="series">Las Memorias del Inspector Mondragón</div>
+  <div class="case-num">Caso II · 1953</div>
+  <h1>El Tren de las Tres</h1>
+  <p class="tagline">Un cadáver en el compartimento 7.<br>El tren nunca se detuvo. Los pasajeros, nunca bajaron.</p>
+  <div class="divider"></div>
+
+  <div class="coming-box">
+    <div class="cb-label">En preparación</div>
+    <p class="cb-text">
+      El Inspector Mondragón continúa sus investigaciones.<br>
+      Este caso se abrirá pronto.<br><br>
+      <em>Mientras tanto, si no ha resuelto El Último Invitado,<br>el Caso I sigue esperándolo.</em>
+    </p>
+  </div>
+
+  <form class="notify-form" onsubmit="handleNotify(event)">
+    <input class="notify-input" type="email" placeholder="Su correo para recibir aviso" id="notify-email">
+    <button class="notify-btn" type="submit">Notificarme</button>
+  </form>
+
+  <a class="back-link" href="../index.html">← Volver a la colección</a>
+  <div class="bottom-line"></div>
+</div>
+
+<script>
+function handleNotify(e){
+  e.preventDefault();
+  const email = document.getElementById('notify-email').value;
+  if(email) window.location.href = `mailto:mondragón@ejemplo.com?subject=Aviso%20Caso%20II&body=Notificarme%20cuando%20El%20Tren%20de%20las%20Tres%20esté%20disponible.%20Email%3A%20${encodeURIComponent(email)}`;
+}
+</script>
+</body>
+</html>

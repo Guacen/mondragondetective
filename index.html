@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Las Memorias del Inspector Mondragón</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#f5efe2; --cream2:#ede4d0; --cream3:#ddd0b3; --cream4:#c8b898;
+  --ink:#1c1409; --ink2:#3a2a12; --ink3:#5c4a28;
+  --burgundy:#6b1a2a; --burg2:#8b2a3a;
+  --gold:#b8860b; --gold2:#d4a017; --gold3:#f0c040;
+  --teal:#1a4a4a; --teal2:#2a6a6a; --teal3:#3a8a8a;
+  --shadow:rgba(28,20,9,0.18);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#0a0804;font-family:'Cormorant Garamond',serif;color:var(--ink);min-height:100vh;}
+
+#screen-collection{
+  min-height:100vh;
+  background:radial-gradient(ellipse at 50% -10%,#1e1508 0%,#0a0804 65%);
+  display:flex;flex-direction:column;align-items:center;
+  padding:3rem 2rem 4rem;
+  position:relative;overflow:hidden;
+}
+#screen-collection::before{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(184,134,11,0.03) 59px,rgba(184,134,11,0.03) 60px),
+    repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(184,134,11,0.02) 59px,rgba(184,134,11,0.02) 60px);
+  pointer-events:none;
+}
+.coll-top-line{width:min(600px,90%);height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin-bottom:2rem;}
+.coll-label{font-family:'Josefin Sans',sans-serif;font-size:.6rem;font-weight:300;letter-spacing:.7em;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;}
+.coll-title{font-family:'IM Fell English',serif;font-size:clamp(1.8rem,5vw,3.2rem);color:var(--cream);text-align:center;line-height:1.15;margin-bottom:.4rem;}
+.coll-subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:rgba(245,239,226,.45);margin-bottom:2.5rem;letter-spacing:.06em;}
+
+.detective-profile{
+  display:flex;align-items:center;gap:1.5rem;
+  background:rgba(26,74,74,.18);border:1px solid rgba(184,134,11,.25);
+  padding:1.2rem 2rem;margin-bottom:3rem;max-width:560px;width:100%;
+}
+.det-avatar{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--teal);border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;flex-shrink:0;
+}
+.det-name{font-family:'IM Fell English',serif;font-size:1.3rem;color:var(--cream);margin-bottom:.15rem;}
+.det-rank{font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem;}
+.det-stats{display:flex;gap:1.5rem;}
+.det-stat{text-align:center;}
+.det-stat-n{font-family:'IM Fell English',serif;font-size:1.1rem;color:var(--gold2);display:block;}
+.det-stat-l{font-family:'Josefin Sans',sans-serif;font-size:.52rem;letter-spacing:.15em;color:rgba(245,239,226,.4);text-transform:uppercase;}
+
+.cases-heading{font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.45em;color:rgba(245,239,226,.5);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;width:min(700px,90%);}
+.cases-heading::after{content:'';flex:1;height:1px;background:rgba(184,134,11,.2);}
+.cases-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;max-width:700px;width:100%;}
+
+.case-card{
+  background:rgba(245,239,226,.04);border:1px solid rgba(184,134,11,.2);
+  padding:1.5rem;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
+  text-decoration:none;display:block;
+}
+.case-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(184,134,11,.05) 0%,transparent 60%);opacity:0;transition:opacity .3s;}
+.case-card:hover{border-color:rgba(184,134,11,.6);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.4);}
+.case-card:hover::after{opacity:1;}
+.case-card.locked{opacity:.45;cursor:not-allowed;pointer-events:none;}
+
+.cc-number{font-family:'Josefin Sans',sans-serif;font-size:.55rem;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem;}
+.cc-title{font-family:'IM Fell English',serif;font-size:1.3rem;color:var(--cream);line-height:1.2;margin-bottom:.3rem;}
+.cc-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;color:rgba(245,239,226,.5);margin-bottom:1rem;}
+.cc-meta{display:flex;gap:1rem;align-items:center;}
+.cc-diff{font-family:'Josefin Sans',sans-serif;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid;}
+.cc-diff.medium{border-color:var(--gold);color:var(--gold2);}
+.cc-diff.hard{border-color:var(--burgundy);color:var(--burg2);}
+.cc-lock{font-size:.8rem;position:absolute;top:1rem;right:1rem;opacity:.4;}
+.cc-solved{position:absolute;top:1rem;right:1rem;font-family:'Josefin Sans',sans-serif;font-size:.5rem;letter-spacing:.2em;color:var(--teal3);border:1px solid var(--teal);padding:.15rem .4rem;text-transform:uppercase;display:none;}
+
+.coll-footer{margin-top:3rem;font-family:'Josefin Sans',sans-serif;font-size:.52rem;letter-spacing:.25em;color:rgba(245,239,226,.2);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div id="screen-collection">
+  <div class="coll-top-line"></div>
+  <div class="coll-label">Narrativa interactiva · Colombia, 1950s</div>
+  <h1 class="coll-title">Las Memorias del<br>Inspector Mondragón</h1>
+  <p class="coll-subtitle">Casos resueltos desde las montañas de Caldas hasta la capital</p>
+
+  <div class="detective-profile">
+    <div class="det-avatar">🕵️</div>
+    <div class="det-info">
+      <div class="det-name">Inspector Héctor Mondragón</div>
+      <div class="det-rank" id="det-rank">Detective Novato · Rango I</div>
+      <div class="det-stats">
+        <div class="det-stat">
+          <span class="det-stat-n" id="det-cases-solved">0</span>
+          <span class="det-stat-l">Casos</span>
+        </div>
+        <div class="det-stat">
+          <span class="det-stat-n" id="det-total-score">0</span>
+          <span class="det-stat-l">Puntos</span>
+        </div>
+        <div class="det-stat">
+          <span class="det-stat-n" id="det-accuracy">—</span>
+          <span class="det-stat-l">Precisión</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cases-heading">Archivos de casos</div>
+  <div class="cases-grid">
+    <!-- Caso 1: disponible -->
+    <a class="case-card" href="./caso-01/index.html">
+      <div class="cc-number">Caso I · 1952</div>
+      <div class="cc-title">El Último Invitado</div>
+      <div class="cc-tagline">Una muerte en Villa Cipreses durante una cena de gala</div>
+      <div class="cc-meta">
+        <span class="cc-diff medium">Dificultad media</span>
+        <span style="font-family:'Josefin Sans',sans-serif;font-size:.52rem;color:rgba(245,239,226,.3);letter-spacing:.1em;">5 sospechosos · 4 capítulos</span>
+      </div>
+      <div class="cc-solved" id="cc1-solved">Resuelto ✓</div>
+    </a>
+    <!-- Caso 2: próximamente -->
+    <a class="case-card locked" href="./caso-02/coming-soon.html">
+      <div class="cc-lock">🔒</div>
+      <div class="cc-number">Caso II · 1953</div>
+      <div class="cc-title">El Tren de las Tres</div>
+      <div class="cc-tagline">Un cadáver en el compartimento 7. El tren nunca se detuvo.</div>
+      <div class="cc-meta">
+        <span class="cc-diff hard">Dificultad alta</span>
+        <span style="font-family:'Josefin Sans',sans-serif;font-size:.52rem;color:rgba(245,239,226,.3);letter-spacing:.1em;">Completa el Caso I para desbloquear</span>
+      </div>
+    </a>
+    <!-- Caso 3: próximamente -->
+    <a class="case-card locked" href="./caso-03/coming-soon.html">
+      <div class="cc-lock">🔒</div>
+      <div class="cc-number">Caso III · 1954</div>
+      <div class="cc-title">La Viuda de Salamina</div>
+      <div class="cc-tagline">Tres muertes en cinco años. Todas parecían accidentes.</div>
+      <div class="cc-meta">
+        <span class="cc-diff hard">Dificultad alta</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="coll-footer">Las Memorias del Inspector Mondragón · Colombia, 1952–1954</div>
+</div>
+
+<script>
+const SAVE_KEY = 'mondragon_save';
+
+function loadStats(){
+  let persistent = { totalScore:0, casesSolved:0, accuracy:[] };
+  try {
+    const s = localStorage.getItem(SAVE_KEY);
+    if(s) persistent = {...persistent, ...JSON.parse(s)};
+  } catch(e){}
+
+  document.getElementById('det-cases-solved').textContent = persistent.casesSolved;
+  document.getElementById('det-total-score').textContent = persistent.totalScore;
+  const acc = persistent.accuracy;
+  document.getElementById('det-accuracy').textContent = acc.length
+    ? Math.round(acc.reduce((a,b)=>a+b,0)/acc.length)+'%' : '—';
+
+  if(persistent.casesSolved > 0){
+    document.getElementById('cc1-solved').style.display = 'block';
+  }
+
+  const pts = persistent.totalScore;
+  const rank = pts < 50 ? 'Detective Novato · Rango I'
+    : pts < 150 ? 'Inspector de Campo · Rango II'
+    : pts < 300 ? 'Inspector Senior · Rango III'
+    : pts < 500 ? 'Inspector Jefe · Rango IV'
+    : 'Inspector Legendario · Rango V';
+  document.getElementById('det-rank').textContent = rank;
+}
+
+loadStats();
+</script>
+</body>
+</html>
