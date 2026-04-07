@@ -613,7 +613,7 @@ const CASE1 = {
         `El médico forense estimó la muerte entre las diez y las once de la noche. Todos los invitados aseguraban haber estado en el salón de música durante ese tiempo. <em>Todos, excepto uno, mentían.</em>`,
         `—El veneno —murmuró Mondragón al forense— no es obra de un momento de pasión. Alguien planeó esto con semanas de anticipación. Lo cual nos dice algo muy importante sobre la naturaleza del asesino: es alguien paciente. Y la paciencia, en mi experiencia, es el rasgo más peligroso que puede tener un criminal.`
       ],
-      action:'examine', clues_scene:['veneno_forense','pañuelo_bv','ventana_abierta','copa_intacta']
+      action:'examine', clues_scene:['veneno_forense','pañuelo_bv','ventana_abierta','copa_intacta','borrador_sobre']
     },
     {
       id:1, subtitle:'Capítulo II', title:'Los Primeros Interrogatorios',
@@ -863,10 +863,10 @@ const CASE1 = {
               {t:'Observar el temblor de su copa.', next:'l1_obs', trust:0, clue:'l_nervios', obs:true}
             ]},
           { id:'l1_rel', ctx:null,
-            speech:`"Quiero decir... era generoso con sus amigos. Exigente con sus socios." <em>(Se corrige torpemente)</em> "No es que tuviéramos problemas."`,
+            speech:`"Quiero decir... era generoso con sus amigos. Exigente con sus socios." <em>(Se corrige torpemente)</em> "No es que tuviéramos problemas. Teníamos... situaciones."`,
             opts:[
-              {t:'¿Qué tipo de problemas?', next:'l1_neg', trust:5, clue:'l_problemas_empresa'},
-              {t:'¿Sabía del cambio en el testamento?', next:'l1_test', trust:0, clue:'l_testamento_sabe'}
+              {t:'¿Qué tipo de situaciones?', next:'l1_neg', trust:5, clue:'l_problemas_empresa'},
+              {t:'¿Le debía usted dinero a Villanueva, o al revés?', next:'l1_neg', trust:5, clue:'l_problemas_empresa'}
             ]},
           { id:'l1_coat', ctx:null,
             speech:`"En el salón de música, con todos. Carmen tocaba. Beatriz y yo hablábamos. Y Rodrigo..." <em>(Duda)</em> "...creo que Rodrigo también estaba."`,
@@ -887,14 +887,18 @@ const CASE1 = {
             speech:`"Ella dice las diez y media. Yo la vi salir a las diez y diez. Miré el reloj porque acababa de terminar una copa." <em>(Firme.)</em> "Tengo buena memoria para ese tipo de detalles."`,
             opts:[{t:'Ya veo.', next:null, trust:0, clue:'tiempo_b_l'}]},
           { id:'l1_neg', ctx:null,
-            speech:`"La empresa tiene una deuda grande con un banco de Medellín. Augusto era el aval personal. Con él muerto, pueden ejecutar el préstamo. Lo perdería todo." <em>(Pausa)</em> "Tenía motivos para que Augusto <em>viviera</em>, Inspector."`,
+            speech:`"La empresa tiene una deuda grande con un banco de Medellín. Augusto era el aval personal. Con él muerto, pueden ejecutar el préstamo." <em>(Pausa breve, consciente de lo que está a punto de admitir.)</em> "Tenía todos los motivos del mundo para que Augusto <em>viviera</em>, Inspector. No se olvide de eso."`,
             opts:[
-              {t:'O para que muriera antes de que firmara el testamento nuevo.', next:'l1_def', trust:-15, crit:true},
-              {t:'Entendido. Su interés era que siguiera vivo.', next:null, trust:0, clue:'l_problemas_empresa'}
+              {t:'O para que muriera antes de firmar algo que le perjudicara aún más.', next:'l1_def', trust:-15, crit:true},
+              {t:'¿El testamento también afectaba a la empresa?', next:'l1_test', trust:5, clue:'l_testamento_sabe'},
+              {t:'Entendido. Entonces la muerte le perjudica directamente.', next:null, trust:0, clue:'l_problemas_empresa'}
             ]},
           { id:'l1_def', ctx:null,
-            speech:`"¡No! Si Augusto hubiera muerto <em>después</em> del cambio..." <em>(Se detiene al ver adonde lleva su propia lógica)</em>`,
-            opts:[{t:'Continúe.', next:null, trust:0, clue:'l_incrimina_test'}]},
+            speech:`"¡No! Si Augusto hubiera muerto <em>después</em> del cambio..." <em>(Se detiene al ver adonde lleva su propia lógica. Hay un silencio casi cómico en el que él mismo procesa el error.)</em> "...eso sonó peor de lo que quería."`,
+            opts:[
+              {t:'Siga. Le escucho.', next:null, trust:0, clue:'l_incrimina_test'},
+              {t:'No se preocupe. Yo ya entendí.', next:null, trust:0, clue:'l_incrimina_test'}
+            ]},
           { id:'l1_test', ctx:null,
             speech:`"Me lo dijo hace dos semanas. Hay personas que no aceptan una derrota con elegancia." <em>(No dice el nombre. No hace falta.)</em>`,
             opts:[{t:'¿Cuál era exactamente el cambio?', next:null, trust:0, clue:'l_testamento_sabe'}]},
@@ -909,10 +913,10 @@ const CASE1 = {
             opts:[{t:'¿Qué tipo de cosas?', next:'l1_neg', trust:5, clue:'l_problemas_empresa'}]}
         ],
         ch2:[
-          { id:'l2_1', ctx:null,
-            speech:`"¿De nuevo? Ya le dije todo."`,
+          { id:'l2_1', ctx:'Lorenzo sigue en el mismo sillón. La copa ya no tiembla — ahora simplemente está vacía. Lo cual es, a su manera, una forma peor de nerviosismo.',
+            speech:`"¿Otra vez?" <em>(Sin hostilidad real, más bien resignado.)</em> "Mire, Inspector, si fuera el asesino ya me habría ido a dormir. El hecho de que siga aquí tiene que decirle algo."`,
             opts:[
-              {t:'El reloj del corredor marcaba las 22:08. ¿Eso coincide con lo que vio?', next:'l2_hora', trust:0},
+              {t:'Me dice que es usted listo o que no tiene a dónde ir. Aún no sé cuál.', next:'l2_hora', trust:5},
               {t:'¿Firmó algún documento con Villanueva estos últimos días?', next:'l2_doc', trust:5, clue:'l_documento'},
               {t:'¿Qué cambia para usted con la muerte de Villanueva?', next:'l2_cam', trust:0}
             ]},
@@ -927,9 +931,28 @@ const CASE1 = {
             opts:[{t:'La muerte le perjudica directamente.', next:null, trust:0, clue:'l_documento'}]}
         ],
         ch3:[
-          { id:'l3_1', ctx:null,
-            speech:`"Si va a señalar a alguien, mire bien a quien tiene las iniciales, el motivo y una serenidad que no es natural." <em>(No dice el nombre. Mondragón ya lo tiene.)</em>`,
-            opts:[{t:'Gracias, señor Gaviria.', next:null, trust:0}]}
+          { id:'l3_1', ctx:'Las seis de la madrugada. Lorenzo tiene la corbata floja y la copa vacía desde hace horas. Curiosamente, parece más tranquilo que al principio de la noche. Eso siempre intranquiliza a Mondragón más que el nerviosismo.',
+            speech:`"Inspector. Llevo cinco horas pensando que esta noche me acusan a mí. Y resulta que estoy aquí sentado, vivo." <em>(Ríe sin alegría.)</em> "El banco me ejecuta el lunes de todas formas. Pero al menos no voy preso."`,
+            opts:[
+              {t:'¿Sospechó desde el principio de quién era?', next:'l3_sos', trust:5},
+              {t:'¿Vio algo esta noche que no me haya contado?', next:'l3_bea', trust:0},
+              {t:'¿Qué habría pasado si Villanueva hubiera firmado ese testamento el jueves?', next:'l3_test', trust:5}
+            ]},
+          { id:'l3_sos', ctx:null,
+            speech:`"¿Sospechaba?" <em>(Pausa con algo parecido a la vergüenza.)</em> "Conozco a Beatriz desde hace quince años. Cuando ella está perfectamente serena en medio del caos... es porque ella causó el caos. Siempre fue así, desde pequeña." <em>(Baja la voz.)</em> "Solo que esta vez el caos tenía un muerto."`,
+            opts:[
+              {t:'¿Y no dijo nada en toda la noche?', next:'l3_sil', trust:5},
+              {t:'¿Hubo algún momento concreto que le confirmó lo que sospechaba?', next:'l3_bea', trust:0}
+            ]},
+          { id:'l3_sil', ctx:null,
+            speech:`"Señor Mondragón, yo tenía mis propios problemas. No pensé que fuera tan lejos." <em>(Pausa larga.)</em> "Mea culpa, como dicen los curas. Si me sirve de algo para el expediente, úselo. Si no, úselo también."`,
+            opts:[{t:'Sirve. Gracias, señor Gaviria.', next:'l3_bea', trust:5}]},
+          { id:'l3_test', ctx:null,
+            speech:`"¿Qué habría pasado? Que yo perdería el aval, el banco ejecuta, y Beatriz..." <em>(Pausa.)</em> "Beatriz habría perdido más que yo. Pero a diferencia de mí, ella lo sabía con exactamente cuatro días de anticipación." <em>(Con amarga admiración.)</em> "Hay que reconocerle la eficiencia."`,
+            opts:[{t:'¿Recuerda verla salir del salón esa noche?', next:'l3_bea', trust:0}]},
+          { id:'l3_bea', ctx:null,
+            speech:`"La vi salir a las diez y diez. Miré el reloj porque estaba terminando la copa — tengo la mala costumbre de cronometrarme el whisky." <em>(Seco.)</em> "Ella dice las diez y media. Esos veinte minutos son suyos, Inspector. Haga con ellos lo que necesite."`,
+            opts:[{t:'Ya los tengo. Descanse, señor Gaviria.', next:null, trust:0}]}
         ]
       }
     },
@@ -1001,12 +1024,13 @@ const CASE1 = {
             opts:[{t:'Bien.', next:null, trust:0, clue:'i_dependencia_info'}]}
         ],
         ch2:[
-          { id:'i2_1', ctx:null,
-            speech:`"¿Encontró algo más, Inspector?"`,
+          { id:'i2_1', ctx:'Isabel lleva horas en el mismo rincón. No ha dormido. Cuando Mondragón se sienta frente a ella, la mira con la atención agotada de quien lleva demasiado tiempo pensando.',
+            speech:`"¿Encontró algo nuevo, Inspector? Porque yo no he podido dejar de darle vueltas a algo."`,
             opts:[
-              {t:'El frasco nocturno tiene huellas que no son las suyas.', next:'i2_hue', trust:0, clue:'i_huellas_pastillero'},
+              {t:'¿Quién más podría haber manipulado el frasco de las tomas nocturnas?', next:'i2_hue', trust:0},
               {t:'¿Beatriz y usted hablaron sobre el tratamiento de don Augusto esta tarde?', next:'i2_bea', trust:5, clue:'b_pregunto_arsenico'},
-              {t:'¿Puede precisar a qué hora fue a la biblioteca?', next:'i2_hora', trust:0, clue:'i_horario_real'}
+              {t:'¿Puede precisar a qué hora fue a la biblioteca?', next:'i2_hora', trust:0, clue:'i_horario_real'},
+              {t:'¿Qué es lo que lleva toda la noche pensando, doctora?', next:'i2_bea', trust:10}
             ]},
           { id:'i2_hora', ctx:null,
             speech:`"Las nueve y tres cuartos, como le dije. Quizás un poco antes." <em>(Sin dudar.)</em> "Volví al salón antes de que empezara el Nocturno. Carmen lo anunció cuando entré."`,
@@ -1021,8 +1045,11 @@ const CASE1 = {
             speech:`"Lorenzo me ofreció un vaso de agua cuando entré. Rodrigo estaba a su lado." <em>(Mondragón anota en silencio. Si Isabel volvió antes del Nocturno, estaba en el salón durante toda la ventana del crimen.)</em>`,
             opts:[{t:'Gracias, doctora. Eso es todo.', next:null, trust:0, clue:'i_horario_real'}]},
           { id:'i2_hue', ctx:null,
-            speech:`"¿Del frasco nocturno?" <em>(Frunce el ceño.)</em> "Yo solo toco el semanal los jueves. El nocturno lo prepara quien está en casa esa noche." <em>(Pausa)</em> "Si hay otras huellas en el nocturno, no son mías."`,
-            opts:[{t:'Entendido.', next:null, trust:0, clue:'i_huellas_pastillero'}]},
+            speech:`"El frasco nocturno." <em>(Frunce el ceño, pensativa.)</em> "Yo solo toco el semanal los jueves. El nocturno lo prepara quien esté en casa esa noche. Con Clodomiro libre..." <em>(Pausa. La conclusión llega sola.)</em> "...esa noche solo había una persona que pudiera haberlo preparado."`,
+            opts:[
+              {t:'¿Y esa persona tendría acceso al contenido?', next:null, trust:0, clue:'i_huellas_pastillero'},
+              {t:'¿Vio usted ese frasco antes de bajar al salón?', next:null, trust:0, clue:'i_huellas_pastillero'}
+            ]},
           { id:'i2_bea', ctx:null,
             speech:`"Esta tarde, antes de la cena, Beatriz me preguntó si dosis pequeñas y repetidas de ciertos compuestos podían causar síntomas que parecieran un deterioro natural." <em>(Pausa larga.)</em> "Lo dijo como si fuera una pregunta académica. Yo respondí como si lo fuera."`,
             opts:[{t:'¿Mencionó algún compuesto en particular?', next:'i2_bea2', trust:5, clue:'b_pregunto_arsenico'}]},
@@ -1031,9 +1058,28 @@ const CASE1 = {
             opts:[{t:'Ahora es otra cosa.', next:null, trust:0, clue:'b_pregunto_arsenico'}]}
         ],
         ch3:[
-          { id:'i3_1', ctx:null,
-            speech:`"Inspector: quien preparó las tomas de esa noche tenía acceso directo. Quien preguntó sobre el método esa misma tarde sabía lo que buscaba." <em>(Voz grave)</em> "Si no llega a la misma conclusión que yo, su teoría alternativa debe ser muy sólida."`,
-            opts:[{t:'La evidencia habla sola, doctora.', next:null, trust:0}]}
+          { id:'i3_1', ctx:'Isabel fue la primera en llegar a la reunión final. Está sentada en el mismo sillón de siempre, con las manos cruzadas sobre la rodilla. Mondragón nota que tiene los ojos secos pero enrojecidos — de alguien que ya terminó de llorar hace rato y ahora solo piensa.',
+            speech:`"He estado repasando los últimos meses, Inspector." <em>(Sin preámbulo, como si continuara una conversación.)</em> "El deterioro de Augusto. Mis ajustes de dosis. Las visitas de los domingos." <em>(Pausa.)</em> "Tardé demasiado en ver el patrón."`,
+            opts:[
+              {t:'¿Cree que pudo haberlo detectado a tiempo?', next:'i3_det', trust:5},
+              {t:'¿Qué fue lo que finalmente hizo que el patrón tuviera sentido?', next:'i3_ext', trust:5},
+              {t:'Ya tengo suficiente, doctora. Solo necesito confirmar una cosa.', next:'i3_conf', trust:0}
+            ]},
+          { id:'i3_det', ctx:null,
+            speech:`"Quizás. El martes cambié su dosis porque los valores habían empeorado. En ese momento lo atribuí al estrés." <em>(Voz controlada, pero con un filo de rabia hacia sí misma.)</em> "Ahora sé que el empeoramiento era inducido. Y que mi ajuste, combinado con el arsénico, probablemente aceleró todo." <em>(Pausa.)</em> "Lo maté sin saberlo."`,
+            opts:[
+              {t:'Usted no lo sabía. El método fue diseñado exactamente para engañar a un médico.', next:'i3_conf', trust:10},
+              {t:'¿Notó algo inusual fuera de las consultas estas últimas semanas?', next:'i3_ext', trust:5}
+            ]},
+          { id:'i3_ext', ctx:null,
+            speech:`"Me llamó hace diez días. Preguntó si era posible que alguien modificara su medicación sin que yo me enterara." <em>(Pequeña pausa.)</em> "Le dije que no, que sin receta era peligroso. Me respondió: 'No te preocupes, Isabel, nadie me va a cambiar las pastillas sin mi permiso.'" <em>(Cierra los ojos un momento.)</em> "Estaba equivocado. Y yo debería haberle hecho más preguntas."`,
+            opts:[
+              {t:'¿Por qué cree que le hizo esa pregunta?', next:'i3_conf', trust:5, clue:'i_salud_real'},
+              {t:'¿Le contó eso a alguien más?', next:'i3_conf', trust:0}
+            ]},
+          { id:'i3_conf', ctx:null,
+            speech:`"Quien preparó las tomas esa noche tenía acceso directo y sin supervisión. Quien me preguntó sobre el método esa misma tarde sabía exactamente lo que buscaba. Y quien intentó apartarme hace tres semanas..." <em>(Voz quieta y grave.)</em> "...quería asegurarse de que yo no estuviera cerca cuando las cosas llegaran a este punto." <em>(Pausa.)</em> "Si su teoría apunta a otra persona, Inspector, va a necesitar algo muy sólido."`,
+            opts:[{t:'No hace falta. La evidencia ya habla por sí sola. Gracias, doctora.', next:null, trust:0}]}
         ]
       }
     },
@@ -1047,12 +1093,18 @@ const CASE1 = {
             speech:`"Inspector Mondragón. Voy a ahorrarle tiempo: estaba en el salón de música entre las nueve y media y las once. Salí diez minutos a buscar hielo hacia las diez y cuarto. Regresé. No vi a nadie en el corredor."`,
             opts:[
               {t:'¿Por qué me ahorra tiempo, señor Salcedo? ¿Qué teme que descubra?', next:'r1_tem', trust:-5},
-              {t:'Usted redactó el testamento. ¿Cuándo fue la última versión?', next:'r1_test', trust:5, clue:'r_testamento_info', crit:true},
-              {t:'¿Hay algún conflicto reciente que deba saber?', next:'r1_conf', trust:5, clue:'r_conflictos_info'}
+              {t:'Encontré un sobre suyo en el escritorio. "Nueva disposición de bienes. Firma: jueves." Explíqueme qué era ese documento.', next:'r1_test', trust:5, clue:'r_testamento_info'},
+              {t:'¿Hay algún conflicto reciente en esta casa que deba conocer?', next:'r1_conf', trust:5, clue:'r_conflictos_info'}
             ]},
           { id:'r1_tem', ctx:null,
-            speech:`"Temo lo que teme cualquier inocente: ser el chivo expiatorio conveniente." <em>(Pausa)</em> "Soy abogado. Sé cómo se construyen los casos."`,
-            opts:[{t:'Entendido.', next:null, trust:0}]},
+            speech:`"Temo lo que teme cualquier inocente: ser el chivo expiatorio conveniente." <em>(Pausa.)</em> "Soy abogado, Inspector. Sé exactamente cómo se construye un caso contra alguien. Y sé, con la misma precisión, cómo se destruye uno."`,
+            opts:[
+              {t:'¿Está amenazando al investigador a cargo?', next:'r1_amen_a', trust:-5},
+              {t:'Entonces colabore y no habrá caso que construir.', next:'r1_conf', trust:5, clue:'r_conflictos_info'}
+            ]},
+          { id:'r1_amen_a', ctx:null,
+            speech:`"En absoluto." <em>(Con una sonrisa pequeña y completamente controlada.)</em> "Le estoy ofreciendo mis servicios como asesor técnico. Sin costo adicional."`,
+            opts:[{t:'Lo tendré en cuenta. ¿Conflictos recientes en la casa?', next:'r1_conf', trust:5, clue:'r_conflictos_info'}]},
           { id:'r1_test', ctx:null,
             speech:`"La última versión fue hace diez días. Augusto iba a reorganizar su patrimonio de manera significativa. El documento estaba listo para firmar esta semana." <em>(Pausa)</em> "Había una cita el jueves."`,
             opts:[
@@ -1114,8 +1166,14 @@ const CASE1 = {
             speech:`"Como abogado le digo: el expediente tiene motivo, acceso al método, conocimiento del plazo y una coartada con dos grietas." <em>(Pausa)</em> "Lo único que le falta es la confesión. Y dudo que la obtenga."`,
             opts:[{t:'¿Por qué duda?', next:'r3_2', trust:5}]},
           { id:'r3_2', ctx:null,
-            speech:`"Porque las personas que planifican durante semanas no confiesan en un interrogatorio de madrugada." <em>(Pausa)</em> "Pero a veces la evidencia dice lo que la persona no quiere decir."`,
-            opts:[{t:'Eso es exactamente lo que ha pasado esta noche.', next:null, trust:0}]}
+            speech:`"Porque las personas que planifican durante semanas no confiesan en un interrogatorio de madrugada." <em>(Pausa.)</em> "Pero la evidencia, Inspector, no necesita confesar. Esa es su ventaja sobre los testigos — no tiene ego, no tiene miedo y no miente para quedar bien."`,
+            opts:[
+              {t:'Eso es exactamente lo que ha pasado esta noche.', next:null, trust:0},
+              {t:'¿Y si la acusada niega hasta el final?', next:'r3_3', trust:5}
+            ]},
+          { id:'r3_3', ctx:null,
+            speech:`"Que lo niegue." <em>(Encogiéndose de hombros con la ecuanimidad de alguien que lleva décadas en tribunales.)</em> "Yo redacté ese testamento. Conozco la firma del difunto, la fecha de la cita y lo que había en juego para cierta persona. Todo eso puede decirlo un juez." <em>(Pausa.)</em> "No van a necesitar la confesión."`,
+            opts:[{t:'Bien. Gracias, señor Salcedo.', next:null, trust:0}]}
         ]
       }
     },
@@ -1186,11 +1244,12 @@ const CASE1 = {
             opts:[{t:'Gracias, señorita Vélez.', next:null, trust:0, clue:'c_pregunta_arsenico_3semanas'}]}
         ],
         ch2:[
-          { id:'c2_1', ctx:null,
-            speech:`"¿Necesita algo más de mí?"`,
+          { id:'c2_1', ctx:'Carmen está sola junto a la ventana. Ha estado llorando de nuevo. Cuando Mondragón entra, se pone de pie con una mezcla de alivio y angustia que solo puede tener alguien que lleva horas esperando que le pregunten algo.',
+            speech:`"Inspector. He estado pensando en todo lo que le conté antes." <em>(Voz partida.)</em> "Beatriz es mi amiga desde los siete años. Si lo que dije la hunde... ¿qué clase de persona soy?"`,
             opts:[
-              {t:'¿Recuerda si alguien más salió del salón durante su actuación?', next:'c2_sal', trust:5},
-              {t:'Gracias, señorita Vélez. Ha sido muy valiente.', next:'c2_fin', trust:0}
+              {t:'La clase que hace lo correcto, aunque duela. Don Augusto también era una persona.', next:'c2_sal', trust:10},
+              {t:'¿Hay algo más que vio y no me contó?', next:'c2_sal', trust:5},
+              {t:'La verdad no es traición, señorita Vélez.', next:'c2_fin', trust:5}
             ]},
           { id:'c2_sal', ctx:null,
             speech:`"Isabel salió un momento, temprano. Antes del Nocturno." <em>(Piensa.)</em> "Y Lorenzo estuvo un rato en el corredor. Pero cuando volvió a entrar, Beatriz aún no había regresado."`,
@@ -1216,6 +1275,7 @@ const CASE1 = {
     pañuelo_bv:{icon:'🧣',name:'Pañuelo B.V.',desc:'Hallado en la butaca del difunto. Las iniciales corresponden a alguien presente esa noche.',chapter:'Cap. I',key:true},
     ventana_abierta:{icon:'🪟',name:'Ventana entreabierta',desc:'La única ventana que da al jardín trasero. ¿Vía de escape o escenificación?',chapter:'Cap. I',key:false},
     copa_intacta:{icon:'🥃',name:'Copa intacta',desc:'Augusto no llegó a beber. El veneno ya estaba en otro lugar.',chapter:'Cap. I',key:false},
+    borrador_sobre:{icon:'📄',name:'Sobre del abogado',desc:'Un sobre de "Salcedo & Asociados" sin cerrar, en el escritorio. Dentro: un borrador de "nueva disposición de bienes" y una nota al margen — "firma: jueves." El difunto cambiaba su testamento.',chapter:'Cap. I',key:true},
     calma_beatriz:{icon:'🎭',name:'Una calma extraña',desc:'El índice derecho se mueve un milímetro, repetidamente, sobre el brazo del sillón. El único rastro de tensión.',chapter:'Cap. I',key:false},
     gesto_mentira_b:{icon:'👁️',name:'Gesto ocular',desc:'Mira a la izquierda al construir respuestas. Mondragón anota el patrón.',chapter:'Cap. I',key:false},
     coartada_b_debil:{icon:'⏱️',name:'Coartada: versión sin testigo',desc:'Dice haber salido diez minutos. Pero nadie confirmó verla salir ni regresar en ese momento exacto.',chapter:'Cap. I',key:true},
@@ -1407,11 +1467,11 @@ function examineScene(caseData){
   const ch = caseData.chapters[0];
   ch.clues_scene.forEach(c=>{ if(!G.collectedClues.has(c)){ G.collectedClues.add(c); addEvidence(c,caseData); } });
   document.getElementById('h-clues').textContent = G.collectedClues.size;
-  toast('4 evidencias registradas de la escena');
+  toast('5 evidencias registradas de la escena');
   const act = document.querySelector('.action-area');
   act.innerHTML = `<div class="action-label">Escena examinada</div>`;
   const thought = el('div','mondragon-thought');
-  thought.innerHTML = `El veneno no mata en segundos. Fue administrado gradualmente, durante semanas. Eso significa que el asesino tenía acceso frecuente y privado a don Augusto. Y la paciencia de alguien que planifica con cabeza fría.<br><br>El pañuelo... demasiado conveniente. Un asesino inteligente podría haberlo dejado a propósito para despistar. O pudo caérsele sin darse cuenta. Ninguna de las dos posibilidades me satisface del todo.`;
+  thought.innerHTML = `El veneno no mata en segundos. Fue administrado gradualmente, durante semanas. Eso significa que el asesino tenía acceso frecuente y privado a don Augusto. Y la paciencia de alguien que planifica con cabeza fría.<br><br>El pañuelo puede ser un error o una trampa. Ambas opciones me interesan por razones distintas.<br><br>El sobre del escritorio es más revelador que cualquier pañuelo: Villanueva iba a cambiar su testamento el jueves. Hoy es martes. Alguien en esta casa sabía que le quedaban cuatro días para actuar.`;
   act.appendChild(thought);
   const btn = el('button','advance-btn');
   btn.innerHTML = 'Avanzar al Capítulo II — Los Primeros Interrogatorios →';
@@ -1594,11 +1654,39 @@ function handleOpt(key, opt, dia, chKey, caseData, btn, wrap){
 }
 
 const THOUGHTS = {
-  beatriz:["Cada respuesta está tres pasos por delante de la pregunta. Eso no es inocencia. Es preparación.","Hay algo en su calma que me inquieta más que el llanto de los demás.","Miente con elegancia. Pero incluso la mentira más elegante tiene costuras.","La serenidad de Beatriz no es la de quien no tiene nada que temer. Es la de quien ya calculó todos los riesgos."],
-  lorenzo:["El nerviosismo de Gaviria es real. Pero el miedo a perder dinero no es lo mismo que el miedo a ser descubierto.","Su historia tiene coherencia interna. La de un hombre asustado por razones propias, no la de un mentiroso.","Señala a Beatriz con demasiada frecuencia. ¿Convencido genuinamente, o estratégicamente conveniente?"],
-  isabel:["La doctora sabe más de lo que dice. Pero lo que dice siempre apunta en la misma dirección.","Un culpable no facilita su propia incriminación. O quizás sí, si es suficientemente inteligente.","Veinte años de medicina enseñan a controlar las emociones. Y a conocer muy bien los venenos."],
-  rodrigo:["El abogado habla como alguien que ha decidido que la verdad le conviene más que el silencio.","Salcedo tiene el perfil del testigo ideal: preciso y sin motivo aparente para mentir.","Conocer todos los secretos de una familia y sobrevivirlos requiere cierta clase de neutralidad estratégica."],
-  carmen:["La señorita Vélez carga con algo que no es suyo. El peso de saber y haber callado.","Es la única que parece llorar por él, no por sí misma.","Su lealtad a Beatriz y su conciencia están en guerra. Y la conciencia está ganando."]
+  beatriz:[
+    "Cada respuesta está tres pasos por delante de la pregunta. Eso no es inocencia. Es preparación.",
+    "Hay algo en su calma que me inquieta más que el llanto de los demás. El miedo genuino hace ruido. Ella no hace ruido.",
+    "Miente con elegancia. Pero incluso la mentira más elegante tiene costuras — y ella acaba de mostrarme una.",
+    "La serenidad de Beatriz no es la de quien no tiene nada que temer. Es la de quien ya calculó todos los riesgos y decidió que puede con ellos.",
+    "Me da la razón demasiado rápido. Es una táctica. Prefiero al testigo que me discute — al menos ese no está pensando en otra cosa mientras habla.",
+    "Si fuera inocente, estaría indignada. Si fuera culpable pero torpe, estaría nerviosa. Ella no es ninguna de las dos cosas. Eso me lo dice todo."
+  ],
+  lorenzo:[
+    "El nerviosismo de Gaviria es real. Pero hay nerviosismo de culpa y nerviosismo de miedo. Este huele a miedo.",
+    "Su historia tiene coherencia interna: la de un hombre asustado por razones propias, no la de alguien que construye una versión.",
+    "Señala a Beatriz con demasiada frecuencia. Puede ser convicción genuina. O puede ser que señalar a otro es el único deporte que le queda.",
+    "Un hombre al borde de la ruina tiene dos opciones: destruir o escapar. Gaviria huele a escapada. El asesino de esta noche no huyó — se quedó a cenar.",
+    "La copa vacía dice más que los discursos llenos. Lleva horas bebiendo para no pensar. Eso, al menos, lo entiendo."
+  ],
+  isabel:[
+    "La doctora sabe más de lo que dice. Pero todo lo que dice apunta en la misma dirección. Eso no es culpa — es geometría.",
+    "Veinte años de medicina enseñan a controlar las emociones. Y a conocer muy bien los venenos. Ambas cosas aplican aquí.",
+    "Está reconstruyendo la escena en su cabeza mientras me habla. Un inocente recuerda. Un culpable reconstruye. Ella recuerda. La diferencia importa.",
+    "Su coartada matemática es o impecable o diseñada para serlo. En veinte años de oficio he aprendido que la diferencia entre las dos se nota — en el margen de error que deja el culpable, y en el que no deja el inocente."
+  ],
+  rodrigo:[
+    "El abogado habla como quien ha decidido que la verdad le conviene más que el silencio. Los abogados siempre hacen ese cálculo antes de abrir la boca.",
+    "Salcedo tiene el perfil del testigo ideal: preciso, sin motivo aparente para mentir y perfectamente consciente del valor de lo que está entregando.",
+    "Saber todos los secretos de una familia durante veinte años y sobrevivirlos requiere una neutralidad estratégica que linda con el arte.",
+    "Me da información con la generosidad del que tiene mucho más que no va a dar. Sabe dónde está el límite. Y lo respeta — por ahora."
+  ],
+  carmen:[
+    "La señorita Vélez carga con algo que no es suyo. El peso de saber, haber callado y preguntarse qué habría pasado si no lo hubiera hecho.",
+    "Es la única en esta habitación que llora por él. Por él, no por sí misma. Eso, en una noche como esta, es extraordinario.",
+    "Su lealtad a Beatriz y su conciencia llevan horas peleando. Cuando la conciencia gana, el testigo más valioso de la noche tiene nombre.",
+    "Un testigo que duda de su propio testimonio vale más que uno que no duda nunca. La duda significa que está pensando, no recitando."
+  ]
 };
 
 function mondragónThought(key, trust){
