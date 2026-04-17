@@ -4,6 +4,8 @@ Juego detective narrativo ambientado en la Colombia de 1952. Caso a caso, el jug
 
 **Stack**: Vanilla JS + Vite + Supabase (auth anónimo + sync de progreso + leaderboard).
 
+**Producción**: https://mondragondetective.jorge-nebulanoir.workers.dev/ (Cloudflare Pages, deploy automático en push a `main`).
+
 ---
 
 ## Setup local
